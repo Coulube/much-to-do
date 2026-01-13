@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: muchtodo-backend
+  namespace: muchtodo
+  labels:
+    app: muchtodo-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: muchtodo-backend
+  template:
+    metadata:
+      labels:
+        app: muchtodo-backend
+    spec:
+      containers:
+        - name: backend
+          image: container-assessment-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: env-file
+              mountPath: /app/.env
+              subPath: .env
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+      volumes:
+        - name: env-file
+          configMap:
+            name: backend-env

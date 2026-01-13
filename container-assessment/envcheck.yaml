@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envcheck
+  namespace: muchtodo
+spec:
+  restartPolicy: Never
+  containers:
+  - name: envcheck
+    image: busybox:1.36
+    command: ["sh","-c","echo '--- ENV DUMP ---'; env | sort | grep -i mongo; echo '--- DONE ---'; sleep 5"]
+    envFrom:
+    - configMapRef:
+        name: backend-configmap
+    - secretRef:
+        name: backend-secret

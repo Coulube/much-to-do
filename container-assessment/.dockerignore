@@ -1,0 +1,9 @@
+.git
+.gitignore
+kubernetes
+scripts
+evidence
+**/*.log
+tmp
+dist
+build
