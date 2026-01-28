@@ -6,6 +6,7 @@ on:
       - feature/full-stack
     paths:
       - "Client/**"
+      - ".github/workflows/frontend-ci-cd.yml"
 
 jobs:
   build-and-deploy:
