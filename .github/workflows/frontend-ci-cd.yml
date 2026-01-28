@@ -41,7 +41,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy to S3
-        run: aws s3 sync Client/build s3://starttech-prod-frontend --delete
+        run: aws s3 sync Client/dist s3://starttech-prod-frontend --delete
 
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id E29ZG76OVMINF1 --paths "/*"
